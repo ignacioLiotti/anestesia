@@ -16,47 +16,58 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import Result from "./test/page"
 
 const steps = [
   {
     title: "Información Personal",
     questions: [
       { id: "name", title: "Nombre", type: "TEXT" },
-      { id: "insurance", title: "Obra Social", type: "TEXT" },
       { id: "age", title: "Edad", type: "TEXT" },
       { id: "weight", title: "Peso", type: "TEXT" },
-      { id: "height", title: "Altura", type: "TEXT" },
+      { id: "room", title: "Habitación", type: "TEXT" },
     ],
   },
   {
     title: "Condiciones Médicas",
     questions: [
-      { id: "heart", title: "¿Padece alguna enfermedad del corazón?", type: "LIST" },
-      { id: "angina", title: "¿Ha sufrido angina de pecho o infarto?", type: "LIST" },
-      { id: "dyspnea", title: "¿Se despierta con falta de aire?", type: "LIST" },
-      { id: "stairs", title: "¿Se agita al subir escaleras?", type: "LIST" },
-      { id: "hypertension", title: "¿Sufre de hipertensión arterial?", type: "LIST" },
-      { id: "pulmonary", title: "¿Ha sufrido enfermedades pulmonares?", type: "LIST" },
-      { id: "smoke", title: "¿Fuma?", type: "LIST" },
-      { id: "cough", title: "¿Tose habitualmente?", type: "LIST" },
-      { id: "steroids", title: "¿Usa corticoides?", type: "LIST" },
-      { id: "diabetes", title: "¿Tiene diabetes?", type: "LIST" },
-      { id: "thyroid", title: "¿Tiene problemas de tiroides?", type: "LIST" },
-      { id: "hepatitis", title: "¿Ha sufrido hepatitis?", type: "LIST" },
-      { id: "alcohol", title: "¿Bebe alcohol?", type: "LIST" },
-      { id: "allergies", title: "¿Sufre alergias?", type: "MULTIPLE_CHOICE", options: ["Medicamentos", "Alimentos", "Otros"] },
+      { id: "heart", title: "¿Le han dicho que padece o sufre alguna enfermedad del corazón?", type: "LIST" },
+      { id: "angina", title: "¿Ha sufrido o sufre de angina de pecho o infarto de miocardio?", type: "LIST" },
+      { id: "dyspnea", title: "¿Se despertó alguna vez con sensación de falta de aire o necesitó variar la almohada para dormir?", type: "LIST" },
+      { id: "stairs", title: "¿Se agita exageradamente al subir escaleras?, ¿Realiza poca actividad física?", type: "LIST" },
+      { id: "hypertension", title: "¿Ha sufrido o sufre de hipertensión arterial? ¿Toma algún medicamento?", type: "LIST" },
+      { id: "lungDisease", title: "¿Ha sufrido alguna enfermedad pulmonar prolongada (asma/bronquitis)?", type: "LIST" },
+      { id: "smoking", title: "¿Fuma? ¿Desde qué edad? ... N° de cigarrillos ... /día", type: "LIST" },
+      { id: "cough", title: "¿Tose habitualmente? ¿Con o sin catarro?", type: "LIST" },
+      { id: "corticosteroids", title: "¿Ha sufrido o está recibiendo corticoides?", type: "LIST" },
+      { id: "diabetes", title: "¿Sabe si tiene diabetes?", type: "LIST" },
+      { id: "thyroid", title: "¿Ha tenido problemas de tiroides?", type: "LIST" },
+      { id: "hepatitis", title: "¿Ha sufrido o tiene algún familiar con hepatitis?", type: "LIST" },
+      { id: "alcohol", title: "¿Bebe alcohol? ¿Qué tipo y con qué frecuencia?", type: "LIST" },
+      { id: "allergies", title: "¿Sufre alergias? ¿A qué?", type: "LIST" },
+      { id: "weightLoss", title: "¿Ha perdido peso? ¿Cuántos Kg. y en cuánto tiempo?", type: "LIST" },
+      { id: "renalDisease", title: "¿Padece alguna enfermedad renal?", type: "LIST" },
+      { id: "seizures", title: "¿Ha tenido alguna vez convulsiones o epilepsia?", type: "LIST" },
+      { id: "headaches", title: "¿Tiene habitualmente dolores de cabeza? ¿Toma aspirina?", type: "LIST" },
+      { id: "bleeding", title: "¿Sangra con facilidad o se le forman moretones fácilmente?", type: "LIST" },
+      { id: "surgeries", title: "¿Ha sido sometido a cirugías anteriores y qué tipo de anestesia recibió?", type: "LIST" },
+      { id: "dentalProsthesis", title: "¿Utiliza prótesis dentales? ¿tiene dientes flojos?", type: "LIST" },
+      { id: "medications", title: "Actualmente ¿Toma algún medicamento?", type: "LIST" },
+      { id: "pregnancy", title: "Si es mujer ¿Sospecha estar embarazada?", type: "LIST" },
+      { id: "arthritis", title: "¿Padece o padeció artrosis, debilidad muscular o osteoporosis?", type: "LIST" },
+      { id: "sleep", title: "¿Le cuesta conciliar el sueño? ¿Toma algún medicamento para dormir?", type: "LIST" },
+      // Add more questions as needed
     ],
   },
   {
     title: "Examen Físico",
     questions: [
-      { id: "mouth-opening", title: "Apertura bucal", type: "TEXT" },
-      { id: "thyromental-distance", title: "Distancia tiromentoniana", type: "TEXT" },
-      { id: "mallampati", title: "Mallampati", type: "SELECT", options: ["Clase I", "Clase II", "Clase III", "Clase IV"] },
-      { id: "neck-mobility", title: "Movilidad cervical", type: "SELECT", options: ["Normal", "Limitada", "Muy limitada"] },
-      { id: "jugular-veins", title: "Venas yugulares", type: "MULTIPLE_CHOICE", options: ["Ingurgitadas", "Visibles"] },
-      { id: "venous-access", title: "Accesos venosos", type: "SELECT", options: ["Fácil", "Difícil", "Muy difícil"] },
-      { id: "observations", title: "Observaciones", type: "PARAGRAPH_TEXT" },
+      { id: "mouthOpening", title: "Apertura bucal", type: "TEXT" },
+      { id: "mallampati", title: "Mallampati", type: "SELECT", options: ["1", "2", "3", "4"] },
+      { id: "cervicalMobility", title: "Movilidad cervical", type: "SELECT", options: ["Normal", "Limitada", "Muy limitada"] },
+      { id: "thyromentalDistance", title: "Distancia tiromentoniana", type: "TEXT" },
+      { id: "jugularVeins", title: "Venas yugulares", type: "SELECT", options: ["Ingurgitadas", "Visibles", "No visibles"] },
+      { id: "venousAccess", title: "Accesos venosos", type: "SELECT", options: ["Fácil", "Difícil", "Muy difícil"] },
     ],
   },
   {
@@ -64,17 +75,14 @@ const steps = [
     questions: [
       { id: "hto", title: "Hto", type: "TEXT" },
       { id: "hb", title: "Hb", type: "TEXT" },
-      { id: "glucose", title: "Glucemia", type: "TEXT" },
       { id: "platelets", title: "Plaquetas", type: "TEXT" },
-      { id: "uremia", title: "Uremia", type: "TEXT" },
+      { id: "glucose", title: "Glucemia", type: "TEXT" },
       { id: "na", title: "Na+", type: "TEXT" },
       { id: "k", title: "K+", type: "TEXT" },
-      { id: "cl", title: "Cl-", type: "TEXT" },
-      { id: "kptt", title: "KPTT", type: "TEXT" },
-      { id: "rin", title: "RIN", type: "TEXT" },
-      { id: "ap", title: "AP", type: "TEXT" },
+      { id: "others", title: "Otros", type: "PARAGRAPH_TEXT" },
     ],
   },
+  // Additional steps like ECG and Consent can be added similarly
 ]
 
 interface QuestionProps {
@@ -216,6 +224,7 @@ function MedicalQuestionnaire() {
     })
     return initialAnswers
   })
+  const [submittedDataJson, setSubmittedDataJson] = React.useState<string | null>(null)
   const [submittedData, setSubmittedData] = React.useState<string | null>(null)
 
   const handleNext = () => {
@@ -227,9 +236,52 @@ function MedicalQuestionnaire() {
   }
 
   const handleSubmit = () => {
-    // Include all questions, even if not answered (already initialized)
-    const formattedData = JSON.stringify(answers, null, 2)
+    // Map the answers to match the desired structure
+    const formattedData = {
+      header: {
+        title: "EVALUACIÓN PREANESTÉSICA",
+        subtitle1: "PROVINCIA DE CORRIENTES",
+        subtitle2: "Servicio de Cirugía miniinvasiva",
+      },
+      patientInfo: {
+        name: answers.name,
+        age: answers.age,
+        weight: answers.weight,
+        room: answers.room,
+      },
+      questions: steps[1].questions.map((q: any) => ({
+        question: q.title,
+        answer: answers[q.id] === "not selected" ? null : answers[q.id],
+      })),
+      physicalExam: {
+        mouthOpening: answers.mouthOpening,
+        mallampati: answers.mallampati,
+        cervicalMobility: answers.cervicalMobility,
+        thyromentalDistance: answers.thyromentalDistance,
+        jugularVeins: answers.jugularVeins,
+        venousAccess: answers.venousAccess,
+      },
+      labResults: {
+        hto: answers.hto,
+        hb: answers.hb,
+        platelets: answers.platelets,
+        glucose: answers.glucose,
+        na: answers.na,
+        k: answers.k,
+        others: answers.others,
+      },
+      ecg: {
+        rhythm: "Sinusal", // This can be updated to collect from the form
+        cardiovascularRisk: "Bajo", // This can be updated to collect from the form
+      },
+      consentText: [
+        "Yo, ................................................., o en su defecto yo, ................................................., en carácter de testigo autorizo a que mi médico, luego de evaluar los inconvenientes eventuales y beneficios de la internación, estudios, tratamientos y/o intervención quirúrgica me efectúe.",
+        "Asumiendo voluntariamente y conscientemente los riesgos propios del mismo, los cuales me fueron explicados detalladamente.",
+        "Declaro haber sido informado de padecer .................................................. diagnóstico al que se arribó por medio de la evaluación clínica y los estudios complementarios. Consiento además en la administración de los anestésicos que sean considerados necesarios o convenientes por el médico responsable comprendiendo que ello puede implicar riesgos - Aclaro que he leído y entendido cada párrafo de esta autorización.",
+      ],
+    }
     console.log('Submitted data:', formattedData)
+    setSubmittedDataJson(JSON.stringify(formattedData, null, 2))
     setSubmittedData(formattedData)
   }
 
@@ -255,67 +307,75 @@ function MedicalQuestionnaire() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
-      <div className="mx-auto max-w-2xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">{steps[step].title}</h1>
-          <div className="flex gap-2">
-            {Array.from({ length: totalSteps }).map((_, index) => (
-              <div
-                key={index}
-                className={`flex-1 h-3 rounded-full transition-all duration-300 ${index <= step ? 'bg-indigo-600' : 'bg-gray-200'
-                  }`}
-              />
-            ))}
-          </div>
-        </div>
-
-        <Card className="shadow-lg border-0">
-          <CardContent className="p-6 overflow-y-scroll h-[75vh]">
-            <div className="grid gap-6">
-              {steps[step].questions.map((question, index) => (
-                <div
-                  key={question.id}
-                  className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
-                >
-                  {renderQuestion(question)}
-                </div>
-              ))}
+      {!submittedData
+        ? (
+          <div className="mx-auto max-w-2xl">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">{steps[step].title}</h1>
+              <div className="flex gap-2">
+                {Array.from({ length: totalSteps }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={`flex-1 h-3 rounded-full transition-all duration-300 ${index <= step ? 'bg-indigo-600' : 'bg-gray-200'
+                      }`}
+                  />
+                ))}
+              </div>
             </div>
-          </CardContent>
 
-          <CardFooter className="flex justify-between p-6 bg-gray-50">
-            <Button
-              variant="outline"
-              onClick={handlePrevious}
-              disabled={step === 0}
-              className="border-2 hover:bg-gray-100"
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Anterior
-            </Button>
-            <Button
-              onClick={step === totalSteps - 1 ? handleSubmit : handleNext}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white"
-            >
-              {step === totalSteps - 1 ? (
-                "Enviar"
-              ) : (
-                <>
-                  Siguiente
-                  <ChevronRight className="ml-2 h-4 w-4" />
-                </>
-              )}
-            </Button>
-          </CardFooter>
-        </Card>
+            <Card className="shadow-lg border-0">
+              <CardContent className="p-6 overflow-y-scroll h-[75vh]">
+                <div className="grid gap-6">
+                  {steps[step].questions.map((question, index) => (
+                    <div
+                      key={question.id}
+                      className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+                    >
+                      {renderQuestion(question)}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
 
-        {submittedData && (
-          <div className="mt-8 p-4 bg-white shadow rounded">
-            <h2 className="text-2xl font-bold mb-4">Submitted Data</h2>
-            <pre className="whitespace-pre-wrap">{submittedData}</pre>
+              <CardFooter className="flex justify-between p-6 bg-gray-50">
+                <Button
+                  variant="outline"
+                  onClick={handlePrevious}
+                  disabled={step === 0}
+                  className="border-2 hover:bg-gray-100"
+                >
+                  <ChevronLeft className="mr-2 h-4 w-4" />
+                  Anterior
+                </Button>
+                <Button
+                  onClick={step === totalSteps - 1 ? handleSubmit : handleNext}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                >
+                  {step === totalSteps - 1 ? (
+                    "Enviar"
+                  ) : (
+                    <>
+                      Siguiente
+                      <ChevronRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
           </div>
+
+        ) : (
+          <div className="mx-auto max-w-6xl">
+            <div className="mt-8 p-4 bg-white shadow rounded">
+              <Result data={submittedData} />
+              {/* <pre className="whitespace-pre-wrap">{submittedDataJson}</pre> */}
+            </div>
+          </div>
+
         )}
-      </div>
+      {/* 
+        {submittedData && (
+        )} */}
     </div>
   )
 }
