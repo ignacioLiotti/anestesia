@@ -4,8 +4,47 @@ import { Button } from "@/components/ui/button";
 import React, { useRef, useState } from "react";
 import jsPDF from 'jspdf';
 
+interface FormData {
+  header: {
+    title: string;
+    subtitle1: string;
+    subtitle2: string;
+  };
+  patientInfo: {
+    name: string;
+    age: string;
+    weight: string;
+    room: string;
+  };
+  questions: {
+    question: string;
+    answer: string | null;
+  }[];
+  physicalExam: {
+    mouthOpening: string;
+    mallampati: number;
+    cervicalMobility: string;
+    thyromentalDistance: string;
+    jugularVeins: string;
+    venousAccess: string;
+  };
+  labResults: {
+    hto: string;
+    hb: string;
+    platelets: string;
+    glucose: string;
+    na: string;
+    k: string;
+    others: string;
+  };
+  ecg: {
+    rhythm: string;
+    cardiovascularRisk: string;
+  };
+  consentText: string[];
+}
 
-export default function Result(formData: { data: any; }) {
+export default function Result(formData: { data: FormData }) {
   console.log(formData)
   //data comes as a 
   const sampleFormData = {
@@ -130,17 +169,19 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
       format: 'a4',
     });
 
-    doc.html(contentRef.current, {
-      callback: (pdf) => {
-        pdf.save("clinical_form.pdf");
-      },
-      x: 10, // Horizontal margin
-      y: 10, // Vertical margin
-      html2canvas: {
-        scale: 0.5, // Adjust the scale to fit content on the page
-      },
-      width: 190, // A4 width - horizontal margins (210 - 10*2)
-    });
+    if (contentRef.current) {
+      doc.html(contentRef.current, {
+        callback: (pdf) => {
+          pdf.save("clinical_form.pdf");
+        },
+        x: 10, // Horizontal margin
+        y: 10, // Vertical margin
+        html2canvas: {
+          scale: 0.5, // Adjust the scale to fit content on the page
+        },
+        width: 190, // A4 width - horizontal margins (210 - 10*2)
+      });
+    }
   };
 
   return (
@@ -229,7 +270,7 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
           <div className="grid grid-cols-4 gap-4">
             {Object.entries(formData.labResults).map(([key, value]) => (
               <div key={key}>
-                <div>{key.toUpperCase()}: <input type="text" className="border-b border-gray-300 w-16" defaultValue={value} /></div>
+                <div>{key.toUpperCase()}: <input type="text" className="border-b border-gray-300 w-16" defaultValue={value as string} /></div>
               </div>
             ))}
           </div>
