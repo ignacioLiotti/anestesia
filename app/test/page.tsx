@@ -5,46 +5,48 @@ import React, { useRef, useState } from "react";
 import jsPDF from 'jspdf';
 
 interface FormData {
-  header: {
-    title: string;
-    subtitle1: string;
-    subtitle2: string;
-  };
-  patientInfo: {
-    name: string;
-    age: string;
-    weight: string;
-    room: string;
-  };
-  questions: {
-    question: string;
-    answer: string | null;
-  }[];
-  physicalExam: {
-    mouthOpening: string;
-    mallampati: number;
-    cervicalMobility: string;
-    thyromentalDistance: string;
-    jugularVeins: string;
-    venousAccess: string;
-  };
-  labResults: {
-    hto: string;
-    hb: string;
-    platelets: string;
-    glucose: string;
-    na: string;
-    k: string;
-    others: string;
-  };
-  ecg: {
-    rhythm: string;
-    cardiovascularRisk: string;
-  };
-  consentText: string[];
+  data: {
+    header: {
+      title: string;
+      subtitle1: string;
+      subtitle2: string;
+    };
+    patientInfo: {
+      name: string;
+      age: string;
+      weight: string;
+      room: string;
+    };
+    questions: {
+      question: string;
+      answer: string | null;
+    }[];
+    physicalExam: {
+      mouthOpening: string;
+      mallampati: number;
+      cervicalMobility: string;
+      thyromentalDistance: string;
+      jugularVeins: string;
+      venousAccess: string;
+    };
+    labResults: {
+      hto: string;
+      hb: string;
+      platelets: string;
+      glucose: string;
+      na: string;
+      k: string;
+      others: string;
+    };
+    ecg: {
+      rhythm: string;
+      cardiovascularRisk: string;
+    };
+    consentText: string[];
+  }
 }
 
-export default function Result(formData: { data: FormData }) {
+export default function Result(formData: FormData | null) {
   console.log(formData)
   //data comes as a 
   const sampleFormData = {
