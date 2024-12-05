@@ -46,7 +46,7 @@ interface FormData {
   }
 }
 
-export default function Result(formData: FormData | null) {
+export default function Result(formData: FormData) {
   console.log(formData)
   //data comes as a 
   const sampleFormData = {
