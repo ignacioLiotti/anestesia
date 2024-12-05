@@ -88,7 +88,7 @@ interface QuestionProps {
   onChange: (value: any) => void
 }
 
-export const TextQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+const TextQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
   <div className="space-y-2">
     <Label htmlFor={question.id} className="text-gray-700 font-medium text-lg">
       {question.title}
@@ -103,7 +103,7 @@ export const TextQuestion: React.FC<QuestionProps> = ({ question, value, onChang
   </div>
 )
 
-export const ListQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+const ListQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
   <div className="space-y-3">
     <Label className="text-gray-700 font-medium text-lg">{question.title}</Label>
     <RadioGroup
@@ -126,7 +126,7 @@ export const ListQuestion: React.FC<QuestionProps> = ({ question, value, onChang
   </div>
 )
 
-export const MultipleChoiceQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+const MultipleChoiceQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
   <div className="space-y-3">
     <Label className="text-gray-700 font-medium text-lg">{question.title}</Label>
     <div className="grid grid-cols-2 gap-3">
@@ -159,7 +159,7 @@ export const MultipleChoiceQuestion: React.FC<QuestionProps> = ({ question, valu
   </div>
 )
 
-export const ParagraphQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+const ParagraphQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
   <div className="space-y-2">
     <Label htmlFor={question.id} className="text-gray-700 font-medium text-lg">
       {question.title}
@@ -174,7 +174,7 @@ export const ParagraphQuestion: React.FC<QuestionProps> = ({ question, value, on
   </div>
 )
 
-export const SelectQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+const SelectQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
   <div className="space-y-2">
     <Label htmlFor={question.id} className="text-gray-700 font-medium text-lg">
       {question.title}
