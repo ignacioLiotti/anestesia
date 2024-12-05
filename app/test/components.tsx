@@ -7,7 +7,7 @@ interface ResultProps {
   formData: CustomFormData;
 }
 
-export function Result({ formData }: ResultProps) {
+export function Result({ data }: CustomFormData) {
   const sampleFormData = {
     header: {
       title: "EVALUACIÓN PREANESTÉSICA",
@@ -105,7 +105,7 @@ export function Result({ formData }: ResultProps) {
     ],
   };
 
-  return <ClinicalForm formData={formData ? formData.data : sampleFormData} />;
+  return <ClinicalForm formData={data ? data : sampleFormData} />;
 }
 
 const ClinicalForm = ({ formData }: { formData: any }) => {
