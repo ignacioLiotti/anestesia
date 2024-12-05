@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import jsPDF from 'jspdf';
 
 
-export default function Result(formData) {
+export default function Result(formData: { data: any; }) {
   console.log(formData)
   //data comes as a 
   const sampleFormData = {
