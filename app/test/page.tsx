@@ -2,7 +2,8 @@
 'use client'
 import { Button } from "@/components/ui/button";
 import React, { useRef, useState } from "react";
-import html2pdf from 'html2pdf.js';
+import jsPDF from 'jspdf';
+
 
 export default function Result(formData) {
   console.log(formData)
@@ -122,18 +123,24 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
 
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const handleExport = () => {
-    if (!contentRef.current) return;
+  const handleExportPDF = () => {
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'px',
+      format: 'a4',
+    });
 
-    const options = {
-      margin: [0.5, 0.5, 0.5, 0.5],
-      filename: 'document.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    };
-
-    html2pdf().set(options).from(contentRef.current).save();
+    doc.html(contentRef.current, {
+      callback: (pdf) => {
+        pdf.save("clinical_form.pdf");
+      },
+      x: 10, // Horizontal margin
+      y: 10, // Vertical margin
+      html2canvas: {
+        scale: 0.5, // Adjust the scale to fit content on the page
+      },
+      width: 190, // A4 width - horizontal margins (210 - 10*2)
+    });
   };
 
   return (
@@ -244,7 +251,7 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
           ))}
         </div>
       </div>
-      <Button onClick={handleExport}>Exportar a PDF</Button>
+      <Button onClick={handleExportPDF}>Exportar a PDF</Button>
     </>
 
 
