@@ -225,7 +225,7 @@ function MedicalQuestionnaire() {
     return initialAnswers
   })
   const [submittedDataJson, setSubmittedDataJson] = React.useState<string | null>(null)
-  const [submittedData, setSubmittedData] = React.useState<string | null>(null)
+  const [submittedData, setSubmittedData] = React.useState<object | null>(null)
 
   const handleNext = () => {
     if (step < totalSteps - 1) setStep(step + 1)
