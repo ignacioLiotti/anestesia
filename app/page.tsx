@@ -1,101 +1,321 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import * as React from "react"
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+const steps = [
+  {
+    title: "Información Personal",
+    questions: [
+      { id: "name", title: "Nombre", type: "TEXT" },
+      { id: "insurance", title: "Obra Social", type: "TEXT" },
+      { id: "age", title: "Edad", type: "TEXT" },
+      { id: "weight", title: "Peso", type: "TEXT" },
+      { id: "height", title: "Altura", type: "TEXT" },
+    ],
+  },
+  {
+    title: "Condiciones Médicas",
+    questions: [
+      { id: "heart", title: "¿Padece alguna enfermedad del corazón?", type: "LIST" },
+      { id: "angina", title: "¿Ha sufrido angina de pecho o infarto?", type: "LIST" },
+      { id: "dyspnea", title: "¿Se despierta con falta de aire?", type: "LIST" },
+      { id: "stairs", title: "¿Se agita al subir escaleras?", type: "LIST" },
+      { id: "hypertension", title: "¿Sufre de hipertensión arterial?", type: "LIST" },
+      { id: "pulmonary", title: "¿Ha sufrido enfermedades pulmonares?", type: "LIST" },
+      { id: "smoke", title: "¿Fuma?", type: "LIST" },
+      { id: "cough", title: "¿Tose habitualmente?", type: "LIST" },
+      { id: "steroids", title: "¿Usa corticoides?", type: "LIST" },
+      { id: "diabetes", title: "¿Tiene diabetes?", type: "LIST" },
+      { id: "thyroid", title: "¿Tiene problemas de tiroides?", type: "LIST" },
+      { id: "hepatitis", title: "¿Ha sufrido hepatitis?", type: "LIST" },
+      { id: "alcohol", title: "¿Bebe alcohol?", type: "LIST" },
+      { id: "allergies", title: "¿Sufre alergias?", type: "MULTIPLE_CHOICE", options: ["Medicamentos", "Alimentos", "Otros"] },
+    ],
+  },
+  {
+    title: "Examen Físico",
+    questions: [
+      { id: "mouth-opening", title: "Apertura bucal", type: "TEXT" },
+      { id: "thyromental-distance", title: "Distancia tiromentoniana", type: "TEXT" },
+      { id: "mallampati", title: "Mallampati", type: "SELECT", options: ["Clase I", "Clase II", "Clase III", "Clase IV"] },
+      { id: "neck-mobility", title: "Movilidad cervical", type: "SELECT", options: ["Normal", "Limitada", "Muy limitada"] },
+      { id: "jugular-veins", title: "Venas yugulares", type: "MULTIPLE_CHOICE", options: ["Ingurgitadas", "Visibles"] },
+      { id: "venous-access", title: "Accesos venosos", type: "SELECT", options: ["Fácil", "Difícil", "Muy difícil"] },
+      { id: "observations", title: "Observaciones", type: "PARAGRAPH_TEXT" },
+    ],
+  },
+  {
+    title: "Laboratorio",
+    questions: [
+      { id: "hto", title: "Hto", type: "TEXT" },
+      { id: "hb", title: "Hb", type: "TEXT" },
+      { id: "glucose", title: "Glucemia", type: "TEXT" },
+      { id: "platelets", title: "Plaquetas", type: "TEXT" },
+      { id: "uremia", title: "Uremia", type: "TEXT" },
+      { id: "na", title: "Na+", type: "TEXT" },
+      { id: "k", title: "K+", type: "TEXT" },
+      { id: "cl", title: "Cl-", type: "TEXT" },
+      { id: "kptt", title: "KPTT", type: "TEXT" },
+      { id: "rin", title: "RIN", type: "TEXT" },
+      { id: "ap", title: "AP", type: "TEXT" },
+    ],
+  },
+]
+
+interface QuestionProps {
+  question: {
+    id: string
+    title: string
+    type: string
+    options?: string[]
+  }
+  value: any
+  onChange: (value: any) => void
+}
+
+export const TextQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+  <div className="space-y-2">
+    <Label htmlFor={question.id} className="text-gray-700 font-medium text-lg">
+      {question.title}
+    </Label>
+    <Input
+      id={question.id}
+      placeholder={question.title}
+      className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+      value={value === "not selected" ? "" : value}
+      onChange={(e) => onChange(e.target.value)}
+    />
+  </div>
+)
+
+export const ListQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+  <div className="space-y-3">
+    <Label className="text-gray-700 font-medium text-lg">{question.title}</Label>
+    <RadioGroup
+      value={value === "not selected" ? "" : value}
+      onValueChange={onChange}
+      className="grid grid-cols-2 gap-4"
+    >
+      <div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+        onClick={() => onChange("Sí")}
+      >
+        <RadioGroupItem value="Sí" id={`${question.id}-yes`} />
+        <Label htmlFor={`${question.id}-yes`} className="cursor-pointer">Sí</Label>
+      </div>
+      <div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+        onClick={() => onChange("No")}>
+        <RadioGroupItem value="No" id={`${question.id}-no`} />
+        <Label htmlFor={`${question.id}-no`} className="cursor-pointer">No</Label>
+      </div>
+    </RadioGroup>
+  </div>
+)
+
+export const MultipleChoiceQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+  <div className="space-y-3">
+    <Label className="text-gray-700 font-medium text-lg">{question.title}</Label>
+    <div className="grid grid-cols-2 gap-3">
+      {question.options?.map((option, index) => {
+        const selectedValues = value === "not selected" ? [] : value
+        const isChecked = selectedValues.includes(option)
+        const handleToggle = () => {
+          if (isChecked) {
+            onChange(selectedValues.filter((v: string) => v !== option))
+          } else {
+            onChange([...selectedValues, option])
+          }
+        }
+        return (
+          <div
+            key={index}
+            className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+            onClick={handleToggle}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <Checkbox id={`${question.id}-option${index}`} checked={isChecked} />
+            <div
+              className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              {option}
+            </div>
+          </div>
+        )
+      })}
     </div>
-  );
+  </div>
+)
+
+export const ParagraphQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+  <div className="space-y-2">
+    <Label htmlFor={question.id} className="text-gray-700 font-medium text-lg">
+      {question.title}
+    </Label>
+    <Textarea
+      id={question.id}
+      placeholder={question.title}
+      className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+      value={value === "not selected" ? "" : value}
+      onChange={(e) => onChange(e.target.value)}
+    />
+  </div>
+)
+
+export const SelectQuestion: React.FC<QuestionProps> = ({ question, value, onChange }) => (
+  <div className="space-y-2">
+    <Label htmlFor={question.id} className="text-gray-700 font-medium text-lg">
+      {question.title}
+    </Label>
+    <Select value={value === "not selected" ? "" : value} onValueChange={onChange}>
+      <SelectTrigger
+        id={question.id}
+        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+      >
+        <SelectValue placeholder="Seleccionar opción" />
+      </SelectTrigger>
+      <SelectContent>
+        {question.options?.map((option, index) => (
+          <SelectItem key={index} value={option}>
+            {option}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  </div>
+)
+
+export default function HomePage() {
+  return (
+    <MedicalQuestionnaire />
+  )
+}
+
+function MedicalQuestionnaire() {
+  const [step, setStep] = React.useState(0)
+  const totalSteps = steps.length
+  const [answers, setAnswers] = React.useState<{ [key: string]: any }>(() => {
+    // Initialize answers with all questions set to "not selected"
+    const initialAnswers: { [key: string]: any } = {}
+    steps.forEach(step => {
+      step.questions.forEach(question => {
+        initialAnswers[question.id] = "not selected"
+      })
+    })
+    return initialAnswers
+  })
+  const [submittedData, setSubmittedData] = React.useState<string | null>(null)
+
+  const handleNext = () => {
+    if (step < totalSteps - 1) setStep(step + 1)
+  }
+
+  const handlePrevious = () => {
+    if (step > 0) setStep(step - 1)
+  }
+
+  const handleSubmit = () => {
+    // Include all questions, even if not answered (already initialized)
+    const formattedData = JSON.stringify(answers, null, 2)
+    console.log('Submitted data:', formattedData)
+    setSubmittedData(formattedData)
+  }
+
+  const renderQuestion = (question: any) => {
+    const value = answers[question.id]
+    const onChange = (newValue: any) => setAnswers((prevAnswers) => ({ ...prevAnswers, [question.id]: newValue }))
+
+    switch (question.type) {
+      case "TEXT":
+        return <TextQuestion key={question.id} question={question} value={value} onChange={onChange} />
+      case "LIST":
+        return <ListQuestion key={question.id} question={question} value={value} onChange={onChange} />
+      case "MULTIPLE_CHOICE":
+        return <MultipleChoiceQuestion key={question.id} question={question} value={value} onChange={onChange} />
+      case "PARAGRAPH_TEXT":
+        return <ParagraphQuestion key={question.id} question={question} value={value} onChange={onChange} />
+      case "SELECT":
+        return <SelectQuestion key={question.id} question={question} value={value} onChange={onChange} />
+      default:
+        return null
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">{steps[step].title}</h1>
+          <div className="flex gap-2">
+            {Array.from({ length: totalSteps }).map((_, index) => (
+              <div
+                key={index}
+                className={`flex-1 h-3 rounded-full transition-all duration-300 ${index <= step ? 'bg-indigo-600' : 'bg-gray-200'
+                  }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        <Card className="shadow-lg border-0">
+          <CardContent className="p-6 overflow-y-scroll h-[75vh]">
+            <div className="grid gap-6">
+              {steps[step].questions.map((question, index) => (
+                <div
+                  key={question.id}
+                  className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+                >
+                  {renderQuestion(question)}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+
+          <CardFooter className="flex justify-between p-6 bg-gray-50">
+            <Button
+              variant="outline"
+              onClick={handlePrevious}
+              disabled={step === 0}
+              className="border-2 hover:bg-gray-100"
+            >
+              <ChevronLeft className="mr-2 h-4 w-4" />
+              Anterior
+            </Button>
+            <Button
+              onClick={step === totalSteps - 1 ? handleSubmit : handleNext}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white"
+            >
+              {step === totalSteps - 1 ? (
+                "Enviar"
+              ) : (
+                <>
+                  Siguiente
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </CardFooter>
+        </Card>
+
+        {submittedData && (
+          <div className="mt-8 p-4 bg-white shadow rounded">
+            <h2 className="text-2xl font-bold mb-4">Submitted Data</h2>
+            <pre className="whitespace-pre-wrap">{submittedData}</pre>
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
