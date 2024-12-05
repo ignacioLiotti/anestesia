@@ -16,7 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import Result from "./test/page"
+import { Result } from "./test/components"
+import { CustomFormData } from "./test/page"
 
 const steps = [
   {
@@ -225,7 +226,7 @@ function MedicalQuestionnaire() {
     return initialAnswers
   })
   const [submittedDataJson, setSubmittedDataJson] = React.useState<string | null>(null)
-  const [submittedData, setSubmittedData] = React.useState<object | null>(null)
+  const [submittedData, setSubmittedData] = React.useState<CustomFormData | null>(null)
 
   const handleNext = () => {
     if (step < totalSteps - 1) setStep(step + 1)
@@ -237,7 +238,7 @@ function MedicalQuestionnaire() {
 
   const handleSubmit = () => {
     // Map the answers to match the desired structure
-    const formattedData = {
+    const formattedData: CustomFormData = {
       header: {
         title: "EVALUACIÓN PREANESTÉSICA",
         subtitle1: "PROVINCIA DE CORRIENTES",
@@ -367,7 +368,7 @@ function MedicalQuestionnaire() {
         ) : (
           <div className="mx-auto max-w-6xl">
             <div className="mt-8 p-4 bg-white shadow rounded">
-              <Result data={submittedData} />
+              <Result formData={submittedData} />
               {/* <pre className="whitespace-pre-wrap">{submittedDataJson}</pre> */}
             </div>
           </div>
