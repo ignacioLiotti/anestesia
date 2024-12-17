@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { CustomFormData } from "./page";
 import jsPDF from "jspdf";
 import { Button } from "@/components/ui/button";
+import html2pdf from "html2pdf.js";
 
 interface ResultProps {
   formData: CustomFormData;
@@ -48,32 +49,91 @@ export function Result({ formData }: ResultProps) {
       //   "¿Padece o padeció artrosis, debilidad muscular o osteoporosis?",
       //   "¿Le cuesta conciliar el sueño? ¿Toma algún medicamento para dormir?"
       // ]},
-      { question: "¿Le han dicho que padece o sufre alguna enfermedad del corazón?", answer: "yes" },
-      { question: "¿Han sufrido o sufre de angina de pecho o infarto de miocardio?", answer: "no" },
-      { question: "¿Se despertó alguna vez con sensación de falta de aire o necesitó variar la almohada para dormir?", answer: null },
-      { question: "¿Se agita exageradamente al subir escaleras?, ¿Realiza poca actividad física?", answer: null },
-      { question: "¿Ha sufrido o sufre de hipertensión arterial? ¿Toma algún medicamento?", answer: null },
-      { question: "¿Ha sufrido alguna enfermedad pulmonar prolongada (asma/bronquitis)?", answer: null },
-      { question: "¿Fuma? ¿Desde qué edad? ... N° de cigarrillos ... /día", answer: null },
+      {
+        question:
+          "¿Le han dicho que padece o sufre alguna enfermedad del corazón?",
+        answer: "yes",
+      },
+      {
+        question:
+          "¿Han sufrido o sufre de angina de pecho o infarto de miocardio?",
+        answer: "no",
+      },
+      {
+        question:
+          "¿Se despertó alguna vez con sensación de falta de aire o necesitó variar la almohada para dormir?",
+        answer: null,
+      },
+      {
+        question:
+          "¿Se agita exageradamente al subir escaleras?, ¿Realiza poca actividad física?",
+        answer: null,
+      },
+      {
+        question:
+          "¿Ha sufrido o sufre de hipertensión arterial? ¿Toma algún medicamento?",
+        answer: null,
+      },
+      {
+        question:
+          "¿Ha sufrido alguna enfermedad pulmonar prolongada (asma/bronquitis)?",
+        answer: null,
+      },
+      {
+        question: "¿Fuma? ¿Desde qué edad? ... N° de cigarrillos ... /día",
+        answer: null,
+      },
       { question: "¿Tose habitualmente? ¿Con o sin catarro?", answer: null },
       { question: "¿Ha sufrido o está recibiendo corticoides?", answer: null },
       { question: "¿Sabe si tiene diabetes?", answer: null },
       { question: "¿Ha tenido problemas de tiroides?", answer: null },
-      { question: "¿Ha sufrido o tiene algún familiar con hepatitis?", answer: null },
-      { question: "¿Bebe alcohol? ¿Qué tipo y con qué frecuencia?", answer: null },
+      {
+        question: "¿Ha sufrido o tiene algún familiar con hepatitis?",
+        answer: null,
+      },
+      {
+        question: "¿Bebe alcohol? ¿Qué tipo y con qué frecuencia?",
+        answer: null,
+      },
       { question: "¿Sufre alergias? ¿A qué?", answer: null },
-      { question: "¿Ha perdido peso? ¿Cuántos Kg. y en cuánto tiempo?", answer: null },
+      {
+        question: "¿Ha perdido peso? ¿Cuántos Kg. y en cuánto tiempo?",
+        answer: null,
+      },
       { question: "¿Padece alguna enfermedad renal?", answer: null },
-      { question: "¿Ha tenido alguna vez convulsiones o epilepsia?", answer: null },
-      { question: "¿Tiene habitualmente dolores de cabeza? ¿Toma aspirina?", answer: null },
-      { question: "¿Sangra con facilidad o se le forman moretones fácilmente?", answer: null },
-      { question: "¿Ha sido sometido a cirugías anteriores y qué tipo de anestesia recibió?", answer: null },
-      { question: "¿Utiliza prótesis dentales? ¿tiene dientes flojos?", answer: null },
+      {
+        question: "¿Ha tenido alguna vez convulsiones o epilepsia?",
+        answer: null,
+      },
+      {
+        question: "¿Tiene habitualmente dolores de cabeza? ¿Toma aspirina?",
+        answer: null,
+      },
+      {
+        question: "¿Sangra con facilidad o se le forman moretones fácilmente?",
+        answer: null,
+      },
+      {
+        question:
+          "¿Ha sido sometido a cirugías anteriores y qué tipo de anestesia recibió?",
+        answer: null,
+      },
+      {
+        question: "¿Utiliza prótesis dentales? ¿tiene dientes flojos?",
+        answer: null,
+      },
       { question: "Actualmente ¿Toma algún medicamento?", answer: null },
       { question: "Si es mujer ¿Sospecha estar embarazada?", answer: null },
-      { question: "¿Padece o padeció artrosis, debilidad muscular o osteoporosis?", answer: null },
-      { question: "¿Le cuesta conciliar el sueño? ¿Toma algún medicamento para dormir?", answer: null },
-
+      {
+        question:
+          "¿Padece o padeció artrosis, debilidad muscular o osteoporosis?",
+        answer: null,
+      },
+      {
+        question:
+          "¿Le cuesta conciliar el sueño? ¿Toma algún medicamento para dormir?",
+        answer: null,
+      },
 
       // Add more questions as needed
     ],
@@ -124,24 +184,18 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const handleExportPDF = () => {
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'px',
-      format: 'a4',
-    });
-
-    if (contentRef.current) {
-      doc.html(contentRef.current, {
-        callback: (pdf) => {
-          pdf.save("clinical_form.pdf");
-        },
-        x: 10, // Horizontal margin
-        y: 10, // Vertical margin
-        html2canvas: {
-          scale: 0.5, // Adjust the scale to fit content on the page
-        },
-        width: 190, // A4 width - horizontal margins (210 - 10*2)
-      });
+    const element = contentRef.current;
+    if (element) {
+      html2pdf()
+        .set({
+          margin: 10,
+          filename: "clinical_form.pdf",
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "px", format: "a4", orientation: "portrait" },
+        })
+        .from(element)
+        .save();
     }
   };
 
@@ -159,17 +213,33 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
         <div className="flex justify-between items-center mb-6">
           <div className="flex gap-4 items-center">
             <span className="font-bold">PACIENTE:</span>
-            <input type="text" className="border-b border-gray-300 w-48" defaultValue={formData.patientInfo.name} />
+            <input
+              type="text"
+              className="border-b border-gray-300 w-48"
+              defaultValue={formData.patientInfo.name}
+            />
             <span className="font-bold">EDAD:</span>
-            <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.patientInfo.age} />
+            <input
+              type="text"
+              className="border-b border-gray-300 w-16"
+              defaultValue={formData.patientInfo.age}
+            />
             <span>años</span>
             <span className="font-bold">PESO:</span>
-            <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.patientInfo.weight} />
+            <input
+              type="text"
+              className="border-b border-gray-300 w-16"
+              defaultValue={formData.patientInfo.weight}
+            />
             <span>Kg.</span>
           </div>
           <div className="flex gap-2">
             <span className="font-bold">SALA:</span>
-            <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.patientInfo.room} />
+            <input
+              type="text"
+              className="border-b border-gray-300 w-16"
+              defaultValue={formData.patientInfo.room}
+            />
           </div>
         </div>
 
@@ -203,7 +273,7 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
                     </label>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -213,14 +283,53 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
           <div className="font-bold">EXAMEN FÍSICO:</div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <div>Apertura bucal: <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.physicalExam.mouthOpening} /> cm</div>
-              <div>Mallampati: <span>{formData.physicalExam.mallampati}</span></div>
-              <div>Movilidad cervical: <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.physicalExam.cervicalMobility} /></div>
+              <div>
+                Apertura bucal:{" "}
+                <input
+                  type="text"
+                  className="border-b border-gray-300 w-16"
+                  defaultValue={formData.physicalExam.mouthOpening}
+                />{" "}
+                cm
+              </div>
+              <div>
+                Mallampati: <span>{formData.physicalExam.mallampati}</span>
+              </div>
+              <div>
+                Movilidad cervical:{" "}
+                <input
+                  type="text"
+                  className="border-b border-gray-300 w-16"
+                  defaultValue={formData.physicalExam.cervicalMobility}
+                />
+              </div>
             </div>
             <div>
-              <div>Distancia tiromentoniana: <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.physicalExam.thyromentalDistance} /> cm</div>
-              <div>Venas yugulares: <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.physicalExam.jugularVeins} /></div>
-              <div>Accesos venosos: <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.physicalExam.venousAccess} /></div>
+              <div>
+                Distancia tiromentoniana:{" "}
+                <input
+                  type="text"
+                  className="border-b border-gray-300 w-16"
+                  defaultValue={formData.physicalExam.thyromentalDistance}
+                />{" "}
+                cm
+              </div>
+              <div>
+                Venas yugulares:{" "}
+                <input
+                  type="text"
+                  className="border-b border-gray-300 w-16"
+                  defaultValue={formData.physicalExam.jugularVeins}
+                />
+              </div>
+              <div>
+                Accesos venosos:{" "}
+                <input
+                  type="text"
+                  className="border-b border-gray-300 w-16"
+                  defaultValue={formData.physicalExam.venousAccess}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -231,7 +340,14 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
           <div className="grid grid-cols-4 gap-4">
             {Object.entries(formData.labResults).map(([key, value]) => (
               <div key={key}>
-                <div>{key.toUpperCase()}: <input type="text" className="border-b border-gray-300 w-16" defaultValue={value as string} /></div>
+                <div>
+                  {key.toUpperCase()}:{" "}
+                  <input
+                    type="text"
+                    className="border-b border-gray-300 w-16"
+                    defaultValue={value as string}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -241,21 +357,31 @@ const ClinicalForm = ({ formData }: { formData: any }) => {
         <div className="mb-6">
           <div className="font-bold">ECG:</div>
           <div>
-            Ritmo: <input type="text" className="border-b border-gray-300 w-64" defaultValue={formData.ecg.rhythm} />
-            Riesgo quirúrgico cardiovascular: <input type="text" className="border-b border-gray-300 w-16" defaultValue={formData.ecg.cardiovascularRisk} />
+            Ritmo:{" "}
+            <input
+              type="text"
+              className="border-b border-gray-300 w-64"
+              defaultValue={formData.ecg.rhythm}
+            />
+            Riesgo quirúrgico cardiovascular:{" "}
+            <input
+              type="text"
+              className="border-b border-gray-300 w-16"
+              defaultValue={formData.ecg.cardiovascularRisk}
+            />
           </div>
         </div>
 
         {/* Consent Text */}
         <div className="text-sm mt-8">
           {formData.consentText.map((paragraph: string, index: number) => (
-            <p key={index} className="mb-4">{paragraph}</p>
+            <p key={index} className="mb-4">
+              {paragraph}
+            </p>
           ))}
         </div>
       </div>
       <Button onClick={handleExportPDF}>Exportar a PDF</Button>
     </>
-
-
   );
 };
